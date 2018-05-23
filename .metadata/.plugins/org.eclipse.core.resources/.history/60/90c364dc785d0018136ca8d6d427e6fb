@@ -1,0 +1,36 @@
+package com.casestudy.rest.client;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+@Service
+public class RestClientProduct {
+	
+	@Autowired
+	RestTemplateBuilder restTemplateBuilder;
+	
+	@Value( "${external.product.api}" )
+	private  String productApi;
+	
+   public  String  getProductById(String baseUrl,String productId){	   
+	   
+	  Response response = getRestTemplate().getForObject(baseUrl,Response.class,
+                                          productId);
+	  System.out.println(productApi);         
+	  System.out.println(response.toString());
+	  System.out.println("Product Name :"+ response.getProduct().getItem().getProduct_description().getGeneral_description());
+	  
+	  return response.getProduct().getItem().getProduct_description().getGeneral_description();
+	}
+   
+   private RestTemplate getRestTemplate() {
+	   
+	  return  this.restTemplateBuilder.build();
+	   
+   }
+
+}

@@ -1,0 +1,95 @@
+package com.casestudy.rest.service.impl;
+
+
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.casestudy.rest.client.RestClientProduct;
+
+import com.casestudy.rest.db.model.Product;
+import com.casestudy.rest.dto.ProductDto;
+import com.casestudy.rest.repository.ProductRepository;
+import com.casestudy.rest.service.DataStoreProductService;
+import com.casestudy.rest.service.ProductService;
+import com.casestudy.rest.service.RestClientProductService;
+
+@Service("productService")
+@Transactional
+public class ProductServiceImpl implements ProductService {
+	
+	private final static Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
+
+	@Autowired
+	private  DataStoreProductService dataStoreProductService;
+	
+	@Autowired
+	private  RestClientProductService restClientProductService;
+	
+	
+	
+	
+	
+    private ProductDto productDto;
+	
+	public ProductDto findByProductId(String productId) {
+		
+		logger.debug("Starting calling multiple sources to retreive product info");
+		
+		this.productDto=null;
+		
+		String productName=dataStoreProductService.getProductNameById(productId);
+		
+		logger.debug("Product Name Retreived :" + productName);
+		
+		Product product = productRepository.findByProductId(productId);
+		
+		logger.debug("Product  Retreived :" + product);
+		
+		if (product==null|| productName==null) {
+			return null;
+		}
+		
+		return populateToProductDto(productName,product);
+		
+	}
+
+	
+	private ProductDto populateToProductDto(String productName, Product product) {
+		if (this.productDto==null) {
+        this.productDto=new ProductDto();
+        productDto.setName(productName);
+		}
+        ProductDto.CurrentPrice currentPrice=productDto.new CurrentPrice();
+        productDto.setCurrentprice(currentPrice);
+		productDto.setId(product.getProductId());
+		
+		currentPrice.setCurrencyCd(product.getCurrent_price().getCurrency_code());
+		currentPrice.setValue(product.getCurrent_price().getValue());
+		return productDto;
+	}
+
+	@Override
+	public ProductDto save(ProductDto productDto) {
+		this.productDto=productDto;
+		
+		Product product = productRepository.findByProductId(this.productDto.getId())  ;
+		
+		if (product==null) {
+			return null;
+		}
+		
+		product.getCurrent_price().setCurrency_code(this.productDto.getCurrentprice().getCurrencyCd());
+		product.getCurrent_price().setValue(this.productDto.getCurrentprice().getValue());
+		product= productRepository.save(product);
+		return populateToProductDto(null, product);
+	}
+
+
+	
+
+}

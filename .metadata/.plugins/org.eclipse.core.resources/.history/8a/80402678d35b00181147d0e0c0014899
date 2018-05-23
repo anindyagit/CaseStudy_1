@@ -1,0 +1,2 @@
+server.port=8888
+spring.data.mongodb.uri=mongodb://anindya:anindya@ds129670.mlab.com:29670/anindyadb

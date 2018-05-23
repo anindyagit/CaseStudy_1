@@ -1,0 +1,14 @@
+package com.casestudy.rest.service.impl;
+
+import com.casestudy.rest.db.model.Product;
+import com.casestudy.rest.service.DataStoreProductService;
+
+public class DataStoreProductServiceImpl implements DataStoreProductService {
+
+	@Override
+	public Product getProductById(String productId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

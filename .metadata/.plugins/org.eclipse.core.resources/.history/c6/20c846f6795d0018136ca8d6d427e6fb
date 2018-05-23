@@ -1,0 +1,66 @@
+package com.casestudy.rest.service.impl;
+
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.casestudy.rest.client.RestClientProduct;
+import com.casestudy.rest.dto.ProductDto;
+import com.casestudy.rest.model.Product;
+import com.casestudy.rest.repository.ProductRepository;
+import com.casestudy.rest.service.ProductService;
+
+@Service("userService")
+@Transactional
+public class ProductServiceImpl implements ProductService {
+
+	@Autowired
+	private  ProductRepository productRepository;
+	
+	@Autowired
+	private  RestClientProduct restClientProduct;
+	
+	@Value( "${external.product.api}" )
+	private  String productApiUrl;
+
+	
+	public ProductDto findByProductId(String productId) {
+		
+		String productName=restClientProduct.getProductById(productApiUrl, productId);
+		
+		Product product = productRepository.findByProductId(productId);
+		
+		if (product==null|| productName==null) {
+			return null;
+		}
+		
+		return populateProductDto(productName,product);
+		
+	}
+
+	
+	private ProductDto populateProductDto(String productName, Product product) {
+        ProductDto productDto=new ProductDto();
+        ProductDto.CurrentPrice currentPrice=productDto.new CurrentPrice();
+		productDto.setId(product.getProductId());
+		productDto.setName(productName);
+		currentPrice.setCurrencyCd(product.getCurrent_price().getCurrency_code());
+		currentPrice.setValue(product.getCurrent_price().getValue());
+		return productDto;
+	}
+
+	@Override
+	public Product save(Product product) {
+		
+		return productRepository.save(product);
+		
+	}
+
+
+	
+	
+
+}

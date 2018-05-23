@@ -1,0 +1,21 @@
+package com.casestudy.rest;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+
+import com.casestudy.rest.client.RestApiTester;
+
+@SpringBootApplication
+public class TgtCaseStudy1Application {
+
+	public static void main(String[] args) {
+		SpringApplication.run(TgtCaseStudy1Application.class, args);
+		System.out.println("Test Hello");
+		//RestApiParser.testRestResponse();
+		
+	//	RestApiTester.testRestForPut();
+		
+	//	RestApiParser.testRestResponse();
+	}
+}

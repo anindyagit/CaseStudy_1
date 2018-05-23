@@ -1,0 +1,19 @@
+1526783228312	Delete element
+1526783237657	Delete element
+1526783399469	Rename package 'com.casestudy.rest.repositories'
+1526783579712	Rename type 'UserController'
+1526783862480	Rename type 'UserService'
+1526784008143	Rename type 'UserServiceImpl'
+1526784307213	Rename type 'UserRepository'
+1526785540275	Rename type 'ProductDto'
+1526794778446	Move compilation unit
+1526956908105	Rename type 'RestApiParser'
+1526960523061	Rename package 'com.casestudy.rest.dto'
+1526960864761	Encapsulate field 'currentprice'
+1526963415453	Delete element
+1527005704692	Move compilation units
+1527005726116	Rename package 'com.casestudy.rest.model'
+1527009720947	Delete element
+1527016511590	Rename type 'ProductService'
+1527020903685	Rename type 'ProductServiceImpl'
+1527023944949	Infer generic type arguments

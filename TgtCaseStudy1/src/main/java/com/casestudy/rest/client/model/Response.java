@@ -1,0 +1,25 @@
+package com.casestudy.rest.client.model;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class Response {
+	  @JsonProperty
+	  private Product product;
+	  
+	  public Product getProduct() {
+	    return product;
+	  }
+
+	  public void setProduct(Product restResponse) {
+		  product = restResponse;
+	  }
+
+	  public Response(){
+	    
+	  }
+
+	  @Override
+	  public String toString() {
+	    return "Response [RestResponse=" + product + "]";
+	  }
+}

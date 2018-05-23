@@ -1,0 +1,30 @@
+package com.casestudy.rest.test;
+
+import org.springframework.web.client.RestTemplate;
+
+import com.casestudy.rest.dto.CurrentPrice;
+import com.casestudy.rest.dto.Product;
+
+
+
+public class RestApiTester {
+	
+	private void testRestForPut() {
+	
+	RestTemplate restTemplate = new RestTemplate();
+	
+	Product product=new Product();
+	
+	CurrentPrice current_price=new CurrentPrice();
+	current_price.setCurrency_code("USD");
+	current_price.setValue("15.72");
+	
+	product.setCurrent_price(current_price);
+	
+	restTemplate.put("http://localhost:8888/products/13860428", product);
+	
+	System.out.println(product);
+	
+	}
+
+}

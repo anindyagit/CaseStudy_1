@@ -1,0 +1,15 @@
+package com.casestudy.rest.dto;
+
+import org.springframework.data.annotation.Id;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class ProductDto {
+	
+	@Id
+    public String id;
+	
+	
+
+}

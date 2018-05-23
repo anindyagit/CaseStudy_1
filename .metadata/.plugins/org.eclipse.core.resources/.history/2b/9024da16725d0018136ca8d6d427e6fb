@@ -1,0 +1,44 @@
+package com.casestudy.rest.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.casestudy.rest.dto.Product;
+import com.casestudy.rest.service.ProductService;
+
+@RestController
+@RequestMapping(value="/products")
+public class ProductController {
+	
+	@Autowired
+	private ProductService productService;
+	
+	
+	  
+	  @RequestMapping(value="/{id}", method = RequestMethod.GET)
+	  public Product getProductById(@PathVariable ("id") String id){
+		return productService.findByProductId(id)  ;
+	  }
+	  
+	  
+	  @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	    public Product updateUser(@PathVariable("id") String id, @RequestBody Product product) {
+	        
+		      Product currentProduct= productService.findByProductId(id)  ;
+	       
+	        if (currentProduct==null) {
+	            System.out.println("Product with id " + id + " not found");
+	            return currentProduct;
+	        }
+	       
+	        currentProduct.setCurrent_price(product.getCurrent_price());
+	        currentProduct=productService.save(currentProduct);
+	        return currentProduct;
+	    }
+
+}

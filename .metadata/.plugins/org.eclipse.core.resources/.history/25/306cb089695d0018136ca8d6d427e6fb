@@ -1,0 +1,29 @@
+package com.casestudy.rest.client;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+@Service
+public class RestApiParser {
+	
+	@Value( "${external.product.api}" )
+	private  String productApi;
+	
+   public  void  testRestResponse(){
+	   
+	   RestTemplate restTemplate = new RestTemplate();
+	   Map<String, String> params = new HashMap<String, String>();
+	   params.put("id", "13860428");
+	   Response response = restTemplate.getForObject(
+               "https://redsky.target.com/v2/pdp/tcin/13860428",
+                            Response.class);
+	  System.out.println(productApi);         
+	  System.out.println(response.toString());
+	  System.out.println("Product Name :"+ response.getProduct().getItem().getProduct_description().getGeneral_description());
+	}
+
+}

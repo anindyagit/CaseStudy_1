@@ -1,0 +1,5 @@
+spring.resources.add-mappings=true
+server.port=8888
+spring.data.mongodb.uri=mongodb://anindya:MongoDB2018@ds129670.mlab.com:29670/anindyadb
+external.product.api.baseurl=http://redsky.target.com/v2/pdp/tcin/{productId}?excludes=taxonomy,price,promotion,bulk_ship,rating_and_review_reviews,rating_and_review_statistics,question_answer_statistics
+external.product.api.excludes=excludes=taxonomy,price,promotion,bulk_ship,rating_and_review_reviews,rating_and_review_statistics,question_answer_statistics

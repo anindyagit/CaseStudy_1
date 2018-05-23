@@ -1,0 +1,112 @@
+package com.casestudy.rest.service.impl;
+
+
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.casestudy.rest.db.model.Product;
+import com.casestudy.rest.dto.ProductDto;
+import com.casestudy.rest.service.DataStoreProductService;
+import com.casestudy.rest.service.AggrProductService;
+import com.casestudy.rest.service.RestClientProductService;
+
+@Service("productService")
+@Transactional
+public class AggrProductServiceImpl implements AggrProductService {
+	
+	private final static Logger logger = LoggerFactory.getLogger(AggrProductServiceImpl.class);
+
+	@Autowired
+	private  DataStoreProductService dataStoreProductService;
+	
+	@Autowired
+	private  RestClientProductService restClientProductService;
+	
+	
+	
+	
+	
+    private ProductDto productDto;
+	
+	public ProductDto findByProductId(String productId) {
+		
+		logger.debug("Starting calling multiple sources to retreive product info");
+		
+		ExecutorService executorService=Executors.newFixedThreadPool(2);
+		
+		Callable<String> taskFetchProductname=() -> {
+			return restClientProductService.getProductNameById(productId);
+		};
+		
+		Callable<Product> taskFetchProductFromDataStore=() -> {
+			return dataStoreProductService.getProductById(productId);
+		};
+		
+		Map<String,Callable> allTaskMap=new HashMap<>;
+		allTaskMap.put("taskFetchProductname", taskFetchProductname);
+		
+		
+		Future<String> productName=executorService.submit(taskFetchProductname);
+		Future<Product> product=executorService.submit(taskFetchProductFromDataStore);
+		
+		this.productDto=null;
+		
+		
+		
+		logger.debug("Product  Retreived :" + product);
+		
+		if (product==null|| productName==null) {
+			return null;
+		}
+		
+		return populateToProductDto(productName,product);
+		
+	}
+
+	
+	private ProductDto populateToProductDto(String productName, Product product) {
+		if (this.productDto==null) {
+        this.productDto=new ProductDto();
+        productDto.setName(productName);
+		}
+        ProductDto.CurrentPrice currentPrice=productDto.new CurrentPrice();
+        productDto.setCurrentprice(currentPrice);
+		productDto.setId(product.getProductId());
+		
+		currentPrice.setCurrencyCd(product.getCurrent_price().getCurrency_code());
+		currentPrice.setValue(product.getCurrent_price().getValue());
+		return productDto;
+	}
+
+	@Override
+	public ProductDto save(ProductDto productDto) {
+		this.productDto=productDto;
+		
+		Product product = dataStoreProductService.getProductById(this.productDto.getId())  ;
+		
+		if (product==null) {
+			return null;
+		}
+		
+		product.getCurrent_price().setCurrency_code(this.productDto.getCurrentprice().getCurrencyCd());
+		product.getCurrent_price().setValue(this.productDto.getCurrentprice().getValue());
+		product= dataStoreProductService.save(product);
+		return populateToProductDto(null, product);
+	}
+
+
+	
+
+}

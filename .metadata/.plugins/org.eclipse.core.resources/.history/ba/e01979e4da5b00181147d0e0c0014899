@@ -1,0 +1,13 @@
+package com.casestudy.rest.service;
+
+import java.util.List;
+
+
+import com.casestudy.rest.client.Product;
+
+public interface ProductService {
+	
+	Product findByProductId(Integer userId);
+	
+	
+}

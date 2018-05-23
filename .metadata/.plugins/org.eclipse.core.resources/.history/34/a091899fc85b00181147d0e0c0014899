@@ -1,0 +1,26 @@
+package com.casestudy.rest.client;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+@Service
+public class RestApiParser {
+	
+	
+   public static void  testRestResponse(){
+	   
+	   RestTemplate restTemplate = new RestTemplate();
+	   Map<String, String> params = new HashMap<String, String>();
+	   params.put("id", "13860428");
+	   String response = restTemplate.getForObject(
+               "http://redsky.target.com/v2/pdp/tcin/{}",
+                            String.class,params
+                            );
+               
+	   response.toString();
+	}
+
+}

@@ -1,0 +1,13 @@
+package com.casestudy.rest.service.impl;
+
+import com.casestudy.rest.service.RestClientProductService;
+
+public class RestClientProductserviceImpl implements RestClientProductService {
+
+	@Override
+	public String getProductById(String productId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

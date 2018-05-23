@@ -1,0 +1,5 @@
+package com.casestudy.rest.service;
+
+public interface DataStoreProductService {
+
+}

@@ -1,0 +1,4 @@
+spring.resources.add-mappings=true
+server.port=8888
+spring.data.mongodb.uri=mongodb://anindya:MongoDB2018@ds129670.mlab.com:29670/anindyadb
+external.product.api=https://redsky.target.com/v2/pdp/tcin/

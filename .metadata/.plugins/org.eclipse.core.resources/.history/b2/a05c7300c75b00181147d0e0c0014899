@@ -1,0 +1,20 @@
+package com.casestudy.rest.client;
+
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+@Service
+public class RestApiParser {
+	
+	
+   public static void  testRestResponse(){
+	   
+	   RestTemplate restTemplate = new RestTemplate();
+	   String response = restTemplate.getForObject(
+               "http://redsky.target.com/v2/pdp/tcin/13860428?excludes={}",
+                            String.class,"taxonomy,price,promotion,bulk_ship,rating_and_review_reviews,rating_and_review_statistics,question_answer_statistics");
+               
+	   response.toString();
+	}
+
+}

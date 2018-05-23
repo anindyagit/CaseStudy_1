@@ -1,0 +1,15 @@
+package com.casestudy.rest.service;
+
+
+
+import com.casestudy.rest.dto.Product;
+
+
+
+
+public interface ProductService {
+	
+	Product findByProductId(String productid);
+	
+	Product save (Product product);
+}

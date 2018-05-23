@@ -1,0 +1,36 @@
+package com.casestudy.rest.dto;
+
+import org.springframework.data.annotation.Id;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Product {
+	
+
+	@Id
+	private String productId;
+	
+	private CurrentPrice current_price;
+
+	
+
+	public String getProductId() {
+		return productId;
+	}
+
+	public void setProductId(String productId) {
+		this.productId = productId;
+	}
+
+	public CurrentPrice getCurrent_price() {
+		return current_price;
+	}
+
+	public void setCurrent_price(CurrentPrice current_price) {
+		this.current_price = current_price;
+	}
+	
+	
+
+}

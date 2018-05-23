@@ -1,0 +1,68 @@
+package com.casestudy.rest.client;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
+
+@Service
+public class RestClientProduct {
+	
+	@Autowired
+	RestTemplateBuilder restTemplateBuilder;
+	
+	@Value( "${external.product.api.baseurl}" )
+	private  String productApiBaseUrl;
+	
+	@Value( "${external.product.api.excludes}" )
+	private  String productApiExcludes;
+	
+	@Value( "${external.product.connection.timeout}" )
+	private  int connectionTimeout;
+	
+	@Value( "${external.product.read.timeout}" )
+	private  int readTimeout;
+	
+   public  String  getProductById(String productId){	
+	   
+	try {
+	   String finalUrl=buildFinalUrl(productId);
+	   
+	   System.out.println(finalUrl);
+	   
+	  Response response = getRestTemplate().getForObject(finalUrl,Response.class);
+	         
+	  System.out.println(response.toString());
+	  System.out.println("Product Name :"+ response.getProduct().getItem().getProduct_description().getGeneral_description());
+	  
+	  return response.getProduct().getItem().getProduct_description().getGeneral_description();
+	}
+	
+	catch (RestClientException  | NullPointerException ex) {
+		
+		return null;
+	}
+	}
+   
+   private  String buildFinalUrl(String productId) {
+	   
+	   StringBuilder urlBuilder= new StringBuilder();
+	   urlBuilder.append(productApiBaseUrl);
+	   urlBuilder.append(productId);
+	   urlBuilder.append("?excludes=");
+	   urlBuilder.append(productApiExcludes);
+	   return urlBuilder.toString();
+   }
+   
+   private RestTemplate getRestTemplate() {
+	   
+	  this.restTemplateBuilder.setConnectTimeout(connectionTimeout);
+	  this.restTemplateBuilder.setReadTimeout(readTimeout);
+	  return this.restTemplateBuilder.build();
+	   
+   }
+
+}

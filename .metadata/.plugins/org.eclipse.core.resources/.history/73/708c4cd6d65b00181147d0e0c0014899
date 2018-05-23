@@ -1,0 +1,40 @@
+package com.casestudy.rest.controller;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.anindya.familyutil.dto.UserDto;
+import com.anindya.familyutil.entity.AccountDetails;
+import com.anindya.familyutil.entity.User;
+import com.anindya.familyutil.service.AccountTypeService;
+import com.anindya.familyutil.service.UserService;
+
+@RestController
+@RequestMapping(value="/products")
+public class ProductController {
+	
+	@Autowired
+	private ProductService productService;
+	
+	
+	  
+	  @RequestMapping(value="/{id}")
+	  public User getProductById(@PathVariable ("id") int id){
+		return userService.findByUserId(id)  ;
+	  }
+	  
+	  
+	 
+
+}

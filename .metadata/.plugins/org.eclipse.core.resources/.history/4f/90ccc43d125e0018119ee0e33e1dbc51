@@ -1,0 +1,23 @@
+package com.casestudy.rest.repository;
+
+
+
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
+
+import com.casestudy.rest.db.model.Product;
+
+
+
+
+@Repository
+public interface ProductRepository extends MongoRepository<Product, String> {
+	
+	@Cacheable("products")
+	Product findByProductId(String productId);
+
+	
+	S save (Product product);
+
+}
